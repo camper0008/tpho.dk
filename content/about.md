@@ -15,4 +15,4 @@ I have some interesting projects on [my GitHub page](https://github.com/camper00
 
 Additionally, I am also interested in other areas of technology, such as user interface & experience design, system administration, and GNU/Linux, with my current distribution being nixos, which I've come to enjoy due to the philosophy of reproducible builds meaning I can write it once and it will work anywhere (other than hardware differences). I run it both for my servers and my desktop environment. My [current nix config is available on GitHub](https://github.com/camper0008/my-nix).
 
-`tphollebeek@gmail.com>`
+`<tphollebeek@gmail.com>`
