@@ -4,7 +4,12 @@
 
 @font-face {
   font-family: "Cantarell";
-  src: url(/font/Cantarell.otf) format("truetype");
+  src: url(/font/cantarell/Cantarell.otf) format("truetype");
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url(/font/inconsolata/Inconsolata.otf) format("truetype");
 }
 
 body {
@@ -16,16 +21,34 @@ body {
     font-family: "Cantarell", "Segoe UI", "Helvetica", "Arial", system-ui, sans-serif;
 }
 
+pre, code {
+    font-family: "Inconsolata", monospace;
+    font-size: 1.05em;
+}
+
 .directory-listing::marker {
     content: "📁 ";
 }
 
-.file-listing::marker {
+.text-file-listing::marker {
     content: "📄 ";
 }
 
-.directory-listing, .file-listing {
+.file-listing::marker {
+    content: "📦 ";
+}
+
+.text-file-listing, .directory-listing, .file-listing {
     margin-bottom: 0.25em;
+}
+
+footer {
+    text-align: center;
+}
+
+.text-file {
+    max-width: max-content;
+    margin-inline: auto;
 }
 
 h1 {

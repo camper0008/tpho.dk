@@ -1,8 +1,10 @@
+use std::cmp::Ordering;
 use std::env;
 use std::fs::{self, ReadDir};
 use std::path::PathBuf;
 
 use anyhow::Context;
+use itertools::Itertools;
 
 enum Leaf<T> {
     Dir(Vec<(String, Leaf<T>)>),
@@ -82,13 +84,12 @@ fn write_text_file(
     let template = include_str!("templates/root.html");
     let template = template.replace("{{breadcrumbs}}", &formatted_breadcrumbs);
 
+    let content = std::str::from_utf8(&content)
+        .with_context(|| format!("file '{name}' contains invalid utf-8"))?;
     let content = if name.ends_with(".md") {
-        let content = std::str::from_utf8(&content)
-            .with_context(|| format!("file '{name}' contains invalid utf-8"))?;
         markdown::to_html(content)
     } else {
-        String::from_utf8(content)
-            .with_context(|| format!("file '{name}' contains invalid utf-8"))?
+        format!("<pre class=\"text-file\">{content}</pre>")
     };
 
     let template = template.replace("{{content}}", &content);
@@ -106,12 +107,18 @@ fn write_dir_index(
     path: PathBuf,
     breadcrumbs: &Vec<String>,
     name: String,
-    mut files: Vec<(String, Leaf<Vec<u8>>)>,
+    files: Vec<(String, Leaf<Vec<u8>>)>,
 ) -> anyhow::Result<()> {
     fs::create_dir(&path).with_context(|| format!("unable to create dir at {path:?}"))?;
-    files.sort_by_cached_key(|(name, _)| name.to_owned());
     let files_html = files
         .iter()
+        .sorted_by(
+            |(name_a, leaf_a), (name_b, leaf_b)| match (leaf_a, leaf_b) {
+                (Leaf::Dir(_), Leaf::Dir(_)) | (Leaf::File(_), Leaf::File(_)) => name_a.cmp(name_b),
+                (Leaf::Dir(_), Leaf::File(_)) => Ordering::Less,
+                (Leaf::File(_), Leaf::Dir(_)) => Ordering::Greater,
+            },
+        )
         .map(|(name, leaf)| {
             let mut path = breadcrumbs.clone();
             path.remove(0);
@@ -130,6 +137,7 @@ fn write_dir_index(
             let path = path.join("/");
             let class = match leaf {
                 Leaf::Dir(_) => "directory-listing",
+                Leaf::File(_) if is_text_file(name) => "text-file-listing",
                 Leaf::File(_) => "file-listing",
             };
             format!(r#"<li class="{class}"><a href="/{path}">{name}</a></li>"#)
