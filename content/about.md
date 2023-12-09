@@ -13,6 +13,6 @@ I am interested in all things programming, with most of it being done with the [
 
 I have some interesting projects on [my GitHub page](https://github.com/camper0008) such as [vc2-tools](https://github.com/camper0008/vc2-tools), which is some assorted tools such as a VM, assembler, debugger and other utilities for a custom computer architecture called [Virtual Computer 2](https://github.com/simonfj20/vc2), as defined by my good friend and colleague [Simon](https://sfja.dk).
 
-Additionally, I am also interested in other areas of technology, such as user interface & experience design, system administration, and GNU/Linux, with my current distribution being nixos, which I've come to enjoy due to the philosophy of reproducible builds meaning I can write it once and it will work anywhere (other than hardware differences). I run it both for my servers and my desktop environment. My [current nix config is available on GitHub](https://github.com/camper0008/my-nix).
+Additionally, I am also interested in other areas of technology, such as user interface & experience design, system administration, and GNU/Linux, with my current distribution being [NixOS](https://nixos.org/), which I've come to enjoy due to the philosophy of reproducible builds meaning I can write it once and it will work anywhere (other than hardware differences). I run it both for my servers and my desktop environment. My [current nix config is available on GitHub](https://github.com/camper0008/my-nix).
 
 `<tphollebeek@gmail.com>`
