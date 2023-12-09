@@ -5,6 +5,7 @@ use std::path::PathBuf;
 
 use anyhow::Context;
 use itertools::Itertools;
+use markdown::{CompileOptions, Options};
 
 enum Leaf<T> {
     Dir(Vec<(String, Leaf<T>)>),
@@ -87,7 +88,17 @@ fn write_text_file(
     let content = std::str::from_utf8(&content)
         .with_context(|| format!("file '{name}' contains invalid utf-8"))?;
     let content = if name.ends_with(".md") {
-        markdown::to_html(content)
+        markdown::to_html_with_options(
+            content,
+            &Options {
+                compile: CompileOptions {
+                    allow_dangerous_html: true,
+                    ..CompileOptions::default()
+                },
+                ..Options::default()
+            },
+        )
+        .map_err(|err| anyhow::anyhow!(err))?
     } else {
         format!("<pre class=\"text-file\">{content}</pre>")
     };
