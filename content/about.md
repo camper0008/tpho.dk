@@ -1,7 +1,7 @@
 # about.md
 
 <div style="float: right; padding-left: 2rem; padding-bottom: 2rem;">
-  <img src="/img/me.png" alt="Theis Pieter Hollebeek">
+  <img src="/img/me.png" alt="Theis Pieter Hollebeek" width="175" height="311">
   <em style="text-align: center; display: block;">a picture of me</em>
 </div>
 
