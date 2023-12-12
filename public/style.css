@@ -5,11 +5,13 @@
 @font-face {
   font-family: "Cantarell";
   src: url(/font/cantarell/Cantarell.otf) format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Inconsolata";
   src: url(/font/inconsolata/Inconsolata.otf) format("truetype");
+  font-display: swap;
 }
 
 body {
