@@ -77,7 +77,7 @@ fn is_text_file<T: AsRef<str>>(name: T) -> bool {
 }
 
 fn write_text_file(
-    mut path: PathBuf,
+    path: PathBuf,
     content: Vec<u8>,
     formatted_breadcrumbs: String,
     name: String,
@@ -104,10 +104,17 @@ fn write_text_file(
     };
 
     let template = template.replace("{{content}}", &content);
-    if path.file_stem().unwrap_or_else(|| std::ffi::OsStr::new("")) == "README" {
-        path.set_file_name("index.html");
+    let path = if path
+        .file_name()
+        .is_some_and(|v| v == "README.txt" || v == "README.md")
+    {
+        path.with_file_name("index.html")
     } else {
-        path.set_extension("html");
+        if path.extension().is_some_and(|v| v == "md") {
+            path.with_extension("md.html")
+        } else {
+            path.with_extension("txt.html")
+        }
     };
 
     fs::write(&path, template).with_context(|| format!("unable to write to {path:?}"))?;
@@ -133,15 +140,8 @@ fn write_dir_index(
         .map(|(name, leaf)| {
             let mut path = breadcrumbs.clone();
             path.remove(0);
-            if let Some(stem) = name
-                .strip_suffix(".md")
-                .or_else(|| name.strip_suffix(".txt"))
-            {
-                if stem == "README" {
-                    path.push("index.html".to_string())
-                } else {
-                    path.push(stem.to_string())
-                }
+            if name == "README.md" || name == "README.txt" {
+                path.push("index.html".to_string())
             } else {
                 path.push(name.to_owned());
             }
