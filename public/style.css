@@ -26,6 +26,7 @@ body {
 pre, code {
     font-family: "Inconsolata", monospace;
     font-size: 1.05em;
+    white-space: pre-wrap;
 }
 
 .directory-listing::marker {
